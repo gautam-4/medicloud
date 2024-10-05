@@ -1,8 +1,8 @@
 // app/api/auth/[action]/route.js
 import { NextResponse } from 'next/server';
-import { CognitoIdentityProviderClient, SignUpCommand, InitiateAuthCommand } from "@aws-sdk/client-cognito-identity-provider";
+import { CognitoIdentityProviderClient, InitiateAuthCommand, SignUpCommand } from "@aws-sdk/client-cognito-identity-provider";
 
-const client = new CognitoIdentityProviderClient({ region: process.env.AWS_REGION });
+const client = new CognitoIdentityProviderClient({ region: process.env.MY_APP_AWS_REGION });
 
 export async function POST(request, { params }) {
     const { action } = params;
@@ -23,6 +23,7 @@ export async function POST(request, { params }) {
                 return NextResponse.json({ message: 'Login successful', token: loginResponse.AuthenticationResult.IdToken });
 
             case 'signup':
+                // Keeping the signup logic as is since it's working
                 const signUpCommand = new SignUpCommand({
                     ClientId: process.env.COGNITO_CLIENT_ID,
                     Username: email,
